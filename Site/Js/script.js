@@ -1,82 +1,81 @@
-// Typing Animation 
-var typed = new Typed(".typing", {
-  strings: [" ", "Database Administrator", "Full Stack Developer", "Web Developer"],
-  typeSpeed: 100,
-  BackSpeed: 60,
-  loop: true
-})
+/*========== menu icon navbar ==========*/
+let menuIcon = document.querySelector("#menu-icon");
+let navbar = document.querySelector(".navbar");
 
+menuIcon.onclick = () => {
+  menuIcon.classList.toggle("bx-x");
+  navbar.classList.toggle("active");
+};
 
-// ============= Aside ==============
-const nav = document.querySelector(".nav"),
-  navList = nav.querySelectorAll("li"),
-  totalNavList = navList.length,
-  allSection = document.querySelectorAll(".section"),
-  totalSection = allSection.length;
-for (let i = 0; i < totalNavList; i++) {
-  const a = navList[i].querySelector("a");
-  a.addEventListener("click", function () {
-    
-   removeBackSection();
-    for (j = 0; j < totalNavList; j++) {
-      if (navList[j].querySelector("a").classList.contains("active")) {
-        addBackSection(j);
-        // allSection[j].classList.add("back-section");
-      }
-      navList[j].querySelector("a").classList.remove("active");
+/*========== scroll sections active link ==========*/
+let sections = document.querySelectorAll("section");
+let navLinks = document.querySelectorAll("header nav a");
+
+window.onscroll = () => {
+  sections.forEach((sec) => {
+    let top = window.scrollY;
+    let offset = sec.offsetTop - 150;
+    let height = sec.offsetHeight;
+    let id = sec.getAttribute("id");
+
+    if (top >= offset && top < offset + height) {
+      navLinks.forEach((links) => {
+        links.classList.remove("active");
+        document
+          .querySelector("header nav a[href*=" + id + "]")
+          .classList.add("active");
+      });
     }
-    this.classList.add("active")
-    showSection(this);
-    if (window.innerWidth < 1200){
-      asideSectionTogglerBtn();
-    }
-  })
-}
-function removeBackSection(){
-  for (let i = 0; i < totalSection; i++) {
-    allSection[i].classList.remove("back-section");
-  }
-}
+  });
 
-function addBackSection(num){
-  allSection[num].classList.add("back-section");
-}
+  /*========== sticky navbar ==========*/
+  let header = document.querySelector(".header");
 
-function showSection(element) {
-  for (let i = 0; i < totalSection; i++) {
-    allSection[i].classList.remove("active");
-  }
-  const target = element.getAttribute("href").split("#")[1];
-  document.querySelector("#" + target).classList.add("active");
-}
+  header.classList.toggle("sticky", window.scrollY > 100);
 
-function updateNav(element){
-  for (let i = 0; i < totalNavList; i++){
-    navList[i].querySelector("a").classList.remove("active");
-    const target = element.getAttribute("href").split("#")[1]; 
-    if (target === navList[i].querySelector("a").getAttribute("href").split("#")[1]){
-      navList[i].querySelector("a").classList.add("active");
-    }
-  }
-  }
-document.querySelector(".hire-me").addEventListener("click", function() {
-  const sectionIndex = this.getAttribute("data-section-index");
-  // console.log(sectionIndex);
-  showSection(this);
-  updateNav(this);
-  removeBackSection();
-  addBackSection(sectionIndex);
-})
+  /*========== remove menu icon navbar when click navbar link (scroll) ==========*/
+  menuIcon.classList.remove("bx-x");
+  navbar.classList.remove("active");
+};
 
-const navTogglerBtn = document.querySelector(".nav-toggler"),
-aside = document.querySelector(".aside");
-navTogglerBtn.addEventListener("click", () => {
-  asideSectionTogglerBtn();
-})
-function asideSectionTogglerBtn() {
-  aside.classList.toggle("open");
-  navTogglerBtn.classList.toggle("open");
-  for (let i = 0; i < totalSection; i++) {
-    allSection[i].classList.toggle("open");
-  }
-}
+/*========== swiper ==========*/
+var swiper = new Swiper(".mySwiper", {
+  slidesPerView: 1,
+  spaceBetween: 50,
+  loop: true,
+  grabCursor: true,
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+/*========== dark light mode ==========*/
+let darkModeIcon = document.querySelector("#darkMode-icon");
+
+darkModeIcon.onclick = () => {
+  darkModeIcon.classList.toggle("bx-sun");
+  document.body.classList.toggle("dark-mode");
+};
+
+/*========== scroll reveal ==========*/
+ScrollReveal({
+  // reset: true,
+  distance: "80px",
+  duration: 2000,
+  delay: 200,
+});
+
+ScrollReveal().reveal(".home-content, .heading", { origin: "top" });
+ScrollReveal().reveal(
+  ".home-img img, .services-container, .portfolio-box, .testimonial-wrapper, .contact form",
+  { origin: "bottom" }
+);
+ScrollReveal().reveal(".home-content h1, .about-img img", { origin: "left" });
+ScrollReveal().reveal(".home-content h3, .home-content p, .about-content", {
+  origin: "right",
+});
